@@ -1,37 +1,17 @@
 from aiogram import Bot, Dispatcher, executor, types
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
-from config import token_weather
+from config import token_weather, TOKEN_API
 import requests
 import datetime
 
-
-TOKEN_API = "6218547706:AAF1HdzuxIrNwX8CSNwiWsBdD2CSkQ6broU"
-
-kb = ReplyKeyboardMarkup(resize_keyboard=True)
-kb.add(KeyboardButton('/help'))
-
-Choice = """
-/general_weather - общая погода на данный момент
-/weather_for_half_a_day - погода на пол дня
-/weather_for_the_day - погода на сутки 
-"""
-
 bot = Bot(TOKEN_API)
 dp = Dispatcher(bot)
-
 
 async def on_startup(_):
     print('Бот был успешно запущен')
 
 @dp.message_handler(commands=['start'])
 async def start_command(message: types.Message):
-    await message.answer("Привет! Напиши команду /help для ориентации в боте",
-                         reply_markup=kb)
-
-@dp.message_handler(commands=['help'])
-async def help_command(message: types.Message):
-    await message.answer(text=Choice,
-                         reply_markup=ReplyKeyboardRemove())
+    await message.answer("Привет! Напиши мне название города и я пришлю сводку погоды.")
 
 @dp.message_handler()
 async def heart(message: types.Message):
